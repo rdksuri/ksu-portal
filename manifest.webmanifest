@@ -1,6 +1,6 @@
 {
-  "name": "KSU Web-Portal",
-  "short_name": "KSU Portal",
+  "name": "RD KSU",
+  "short_name": "RD KSU",
   "description": "Seiten und Anwendungen des Rettungsdienstes Kantonsspital Uri",
   "lang": "de-CH",
   "start_url": "./",
