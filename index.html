@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Slab:wght@600;700&display=swap">
 <style>
-/* Layout: Optik der KSU-Website. Weisse Kopfzeile mit Logo-Quadrat, Titel im pinken Etikett, Suchfeld als Pille, darunter grosse, abgerundete Farbkacheln (Pink, Petrol, Weiss) mit Serifen-Titel und Kreispfeil. */
+/* Layout: Optik der KSU-Website. Weisse Kopfzeile mit Logo-Quadrat, Titelbild mit Etikett, Suchfeld als Pille, darunter grosse, abgerundete Farbkacheln (Pink, Petrol, Weiss) mit Serifen-Titel und Kreispfeil. */
 :root {
   --bg: #ffffff;
   --surface: #f5f2f3;
@@ -77,10 +77,13 @@ body {
 .name { font-weight: 500; font-size: 21px; color: var(--pink); line-height: 1.1; }
 .name small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: .02em; margin-top: 2px; }
 
-.intro { padding-top: 28px; }
+.hero { position: relative; height: clamp(240px, 64vw, 380px); overflow: hidden; background: #cfe0ea; }
+.hero img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 25% 50%; }
+.hero .pad { position: absolute; left: 0; right: 0; top: 16px; }
+.intro { padding-top: 18px; }
 .label { display: inline-block; max-width: 100%; background: var(--pink); color: var(--pink-fg); font-weight: 700; font-size: clamp(28px, 8vw, 38px); line-height: 1.12; padding: 8px 18px 12px; border-radius: 18px 18px 18px 0; margin: 0; text-wrap: balance; }
 
-.search { margin-top: 22px; display: flex; align-items: center; gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0 20px; height: 54px; }
+.search { margin-top: 0; display: flex; align-items: center; gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0 20px; height: 54px; }
 .search svg { width: 22px; height: 22px; stroke: var(--fg); fill: none; stroke-width: 1.8; stroke-linecap: round; flex: none; }
 .search .sep { width: 1px; height: 28px; background: var(--line); margin: 0 14px; flex: none; }
 .search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--fg); font: inherit; font-size: 18px; height: 100%; outline: none; }
@@ -122,8 +125,12 @@ body { margin: 0; }
     </div>
   </div>
 
+  <section class="hero">
+    <img src="hero.jpg" alt="Rettungswagen auf einer Bergstrasse über einem See" width="1400" height="636">
+    <div class="pad"><h1 class="label">Unser Portal</h1></div>
+  </section>
+
   <section class="intro pad">
-    <h1 class="label">Unser Portal</h1>
     <label class="search" for="q">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
       <span class="sep"></span>
