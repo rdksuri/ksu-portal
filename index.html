@@ -108,6 +108,18 @@ main { padding-block: 22px 0; display: grid; grid-template-columns: repeat(2, mi
 .card.paper .go { color: var(--pink); }
 
 .empty { margin-top: 22px; color: var(--muted); }
+
+.install { padding-top: 28px; }
+.install .box { background: var(--surface); border-radius: 22px; padding: 22px 18px 20px; }
+.install h2 { font-family: var(--font-head); font-weight: 700; font-size: 20px; line-height: 1.2; margin: 0 0 6px; }
+.install p { margin: 0; color: var(--muted); font-size: 15px; }
+.install .btn { margin-top: 14px; font: inherit; font-size: 16px; font-weight: 700; color: var(--pink-fg); background: var(--pink); border: 0; border-radius: 999px; padding: 12px 22px; cursor: pointer; }
+.install .btn:active { transform: scale(.98); }
+.steps { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px 24px; }
+.steps h3 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: var(--pink); }
+.steps ol { margin: 0; padding-left: 20px; font-size: 15px; }
+.steps li { margin: 2px 0; }
+.install .url { margin-top: 16px; font-weight: 500; color: var(--fg); overflow-wrap: anywhere; }
 :focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
 
 html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light dark; }
@@ -140,6 +152,25 @@ body { margin: 0; }
 
   <main class="pad" id="grid" aria-label="Seiten und Anwendungen"></main>
   <p class="empty pad" id="empty" hidden>Keine Seite gefunden.</p>
+
+  <section class="install pad" id="install" aria-labelledby="install-h">
+    <div class="box">
+      <h2 id="install-h">Als App aufs Handy</h2>
+      <p>Die Seite lässt sich wie eine App installieren und öffnet sich dann direkt vom Startbildschirm.</p>
+      <button type="button" class="btn" id="install-btn" hidden>App installieren</button>
+      <div class="steps">
+        <div>
+          <h3>iPhone</h3>
+          <ol><li>Seite in Safari öffnen</li><li>Teilen-Symbol antippen</li><li>«Zum Home-Bildschirm» wählen</li></ol>
+        </div>
+        <div>
+          <h3>Android</h3>
+          <ol><li>Seite in Chrome öffnen</li><li>Menü (drei Punkte) antippen</li><li>«App installieren» wählen</li></ol>
+        </div>
+      </div>
+      <p class="url">rdksuri.github.io/ksu-portal</p>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -178,6 +209,25 @@ function zeige() {
 }
 q.addEventListener("input", zeige);
 zeige();
+
+/* Installations-Hinweis: nur im Browser zeigen, nicht in der installierten App. */
+var installBox = document.getElementById("install");
+var installBtn = document.getElementById("install-btn");
+var angebot = null;
+try {
+  if ((window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone) installBox.hidden = true;
+} catch (e) {}
+window.addEventListener("beforeinstallprompt", function (e) {
+  e.preventDefault();
+  angebot = e;
+  installBtn.hidden = false;
+});
+installBtn.addEventListener("click", function () {
+  if (!angebot) return;
+  angebot.prompt();
+  angebot.userChoice.then(function () { angebot = null; installBtn.hidden = true; });
+});
+window.addEventListener("appinstalled", function () { installBox.hidden = true; });
 </script>
 <script>
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }
