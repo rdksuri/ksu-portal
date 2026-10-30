@@ -13,43 +13,47 @@
 <title>KSU Web-Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Slab:wght@600;700&display=swap">
 <style>
-/* Layout: Kopfzeile mit roter Linie, Bildband mit Frage, breite Hauptkachel fuer Einsatz, darunter zweispaltige Kacheln mit Symbol, Titel, Kurztext. */
+/* Layout: Optik der KSU-Website. Weisse Kopfzeile mit Logo-Quadrat, Titel im pinken Etikett, Suchfeld als Pille, darunter grosse, abgerundete Farbkacheln (Pink, Petrol, Weiss) mit Serifen-Titel und Kreispfeil. */
 :root {
-  --bg: #eef0f2;
-  --surface: #ffffff;
-  --fg: #1b232c;
-  --muted: #5b6672;
-  --line: #dde1e5;
-  --accent: #b3261e;
-  --badge-fg: #ffffff;
-  --shadow: 0 1px 3px rgba(20, 30, 40, .10);
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --bg: #ffffff;
+  --surface: #f5f2f3;
+  --fg: #1c1a1b;
+  --muted: #5f5a5c;
+  --line: #e3dde0;
+  --pink: #e6007e;
+  --pink-fg: #ffffff;
+  --teal: #0f5359;
+  --teal-fg: #ffffff;
+  --paper: #ffffff;
+  --paper-fg: #1c1a1b;
+  --paper-line: #e6007e;
+  --font-head: "Roboto Slab", Georgia, "Times New Roman", serif;
+  --font-body: "Roboto", "Segoe UI", Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12171c;
-    --surface: #1b232b;
-    --fg: #e8ecf0;
-    --muted: #9aa6b2;
-    --line: #2d3843;
-    --accent: #ff7b72;
-    --badge-fg: #12171c;
-    --shadow: none;
+    --bg: #171214;
+    --surface: #221b1e;
+    --fg: #f3eef0;
+    --muted: #b5adb0;
+    --line: #38302f;
+    --paper: #221b1e;
+    --paper-fg: #f3eef0;
+    --paper-line: #ff4fa3;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #12171c;
-  --surface: #1b232b;
-  --fg: #e8ecf0;
-  --muted: #9aa6b2;
-  --line: #2d3843;
-  --accent: #ff7b72;
-  --badge-fg: #12171c;
-  --shadow: none;
+  --bg: #171214;
+  --surface: #221b1e;
+  --fg: #f3eef0;
+  --muted: #b5adb0;
+  --line: #38302f;
+  --paper: #221b1e;
+  --paper-fg: #f3eef0;
+  --paper-line: #ff4fa3;
   color-scheme: dark;
 }
 
@@ -59,47 +63,49 @@ body {
   color: var(--fg);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.4;
-  padding-block: 0 32px;
+  line-height: 1.45;
+  padding-block: 0 40px;
   padding-left: max(0px, env(safe-area-inset-left, 0px));
   padding-right: max(0px, env(safe-area-inset-right, 0px));
 }
 .wrap { max-width: 720px; margin: 0 auto; }
 .pad { padding-left: 16px; padding-right: 16px; }
 
-.bar { background: var(--surface); border-bottom: 4px solid var(--accent); }
-.bar .pad { display: flex; align-items: center; gap: 12px; min-height: 60px; }
-.mark { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: .02em; color: var(--fg); border-top: 3px solid var(--fg); border-bottom: 3px solid var(--fg); padding: 1px 6px; line-height: 1.25; }
-.org { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.bar { border-bottom: 1px solid var(--line); }
+.bar .pad { display: flex; align-items: center; gap: 12px; min-height: 68px; }
+.logo { width: 38px; height: 38px; background: var(--pink); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 15px; letter-spacing: -.02em; display: flex; align-items: flex-end; padding: 0 0 4px 4px; border-radius: 0 0 0 0; flex: none; }
+.name { font-weight: 500; font-size: 21px; color: var(--pink); line-height: 1.1; }
+.name small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: .02em; margin-top: 2px; }
 
-.hero { position: relative; height: 170px; overflow: hidden; background: #2b4a63; }
-.hero svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero .txt { position: absolute; left: 0; right: 0; bottom: 0; padding-block: 14px; color: #fff; background: linear-gradient(to top, rgba(10, 20, 30, .72), rgba(10, 20, 30, 0)); }
-.hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 7vw, 34px); line-height: 1.1; margin: 0; }
-.hero p { margin: 2px 0 0; font-size: 17px; }
+.intro { padding-top: 28px; }
+.label { display: inline-block; max-width: 100%; background: var(--pink); color: var(--pink-fg); font-weight: 700; font-size: clamp(28px, 8vw, 38px); line-height: 1.12; padding: 8px 18px 12px; border-radius: 18px 18px 18px 0; margin: 0; text-wrap: balance; }
 
-main { padding-block: 16px 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.search { margin-top: 22px; display: flex; align-items: center; gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0 20px; height: 54px; }
+.search svg { width: 22px; height: 22px; stroke: var(--fg); fill: none; stroke-width: 1.8; stroke-linecap: round; flex: none; }
+.search .sep { width: 1px; height: 28px; background: var(--line); margin: 0 14px; flex: none; }
+.search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--fg); font: inherit; font-size: 18px; height: 100%; outline: none; }
+.search:focus-within { border-color: var(--pink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pink) 25%, transparent); }
+
+main { padding-block: 22px 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .card {
-  position: relative; min-width: 0;
-  display: flex; flex-direction: column; gap: 10px;
-  padding: 14px;
-  background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--line);
-  color: inherit; text-decoration: none;
+  min-width: 0; min-height: 176px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
+  padding: 18px 16px 16px;
+  border-radius: 22px;
+  color: inherit; text-decoration: none; border: 2px solid transparent;
 }
-.card:active { transform: scale(.985); }
-.card:hover { border-color: var(--accent); }
-.card .ico { width: 52px; height: 52px; color: var(--accent); }
-.card .ico svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.card h2 { font-family: var(--font-display); font-weight: 800; font-size: 18px; line-height: 1.15; margin: 0; overflow-wrap: break-word; }
-.card h2 .arr { color: var(--accent); white-space: nowrap; }
-.card p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.35; }
-.card .badge { position: absolute; top: 14px; right: 14px; background: var(--accent); color: var(--badge-fg); font-size: 13px; font-weight: 700; letter-spacing: .04em; border-radius: 999px; padding: 2px 12px; }
+.card.pink { background: var(--pink); color: var(--pink-fg); }
+.card.teal { background: var(--teal); color: var(--teal-fg); }
+.card.paper { background: var(--paper); color: var(--paper-fg); border-color: var(--paper-line); }
+.card:active { transform: scale(.98); }
+.card h2 { font-family: var(--font-head); font-weight: 700; font-size: 19px; line-height: 1.2; margin: 0 0 6px; overflow-wrap: break-word; }
+.card p { margin: 0; font-size: 15px; line-height: 1.4; opacity: .95; }
+.go { width: 32px; height: 32px; flex: none; }
+.go svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.card.paper .go { color: var(--pink); }
 
-.card.main { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 16px; border-left: 8px solid var(--accent); }
-.card.main .ico { width: 72px; height: 72px; flex: none; }
-.card.main .txt { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.empty { margin-top: 22px; color: var(--muted); }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
 
 html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light dark; }
 body { margin: 0; }
@@ -111,76 +117,60 @@ body { margin: 0; }
 <div class="wrap" lang="de">
   <div class="bar">
     <div class="pad">
-      <span class="mark">KSU</span>
-      <span class="org">Rettungsdienst Uri</span>
+      <span class="logo" aria-hidden="true">KSU</span>
+      <span class="name">Rettungsdienst<small>Kantonsspital Uri</small></span>
     </div>
   </div>
 
-  <section class="hero" aria-label="Willkommen">
-    <svg viewBox="0 0 720 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#7fa6c4"/>
-          <stop offset="1" stop-color="#cfe0ea"/>
-        </linearGradient>
-      </defs>
-      <rect width="720" height="170" fill="url(#sky)"/>
-      <polygon points="0,120 90,60 150,95 240,30 320,100 400,50 470,90 560,20 640,80 720,45 720,170 0,170" fill="#8aa5b8"/>
-      <polygon points="0,140 70,100 140,125 230,80 310,130 420,90 520,125 610,85 720,125 720,170 0,170" fill="#4f7358"/>
-      <polygon points="0,160 120,135 240,152 380,128 520,150 640,132 720,148 720,170 0,170" fill="#2f4b3a"/>
-    </svg>
-    <div class="txt">
-      <div class="pad">
-        <h1>Web-Portal</h1>
-        <p>Was möchtest du öffnen?</p>
-      </div>
-    </div>
+  <section class="intro pad">
+    <h1 class="label">Unser Portal</h1>
+    <label class="search" for="q">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <span class="sep"></span>
+      <input id="q" type="search" placeholder="Suche" autocomplete="off" aria-label="Suche">
+    </label>
   </section>
 
   <main class="pad" id="grid" aria-label="Seiten und Anwendungen"></main>
+  <p class="empty pad" id="empty" hidden>Keine Seite gefunden.</p>
 </div>
 
 <script>
-var ICONS = {
-  map: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12l12-4 12 4 12-4v28l-12 4-12-4-12 4z"/><path d="M18 8v28M30 12v28"/></svg>',
-  edu: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="6" width="28" height="36" rx="3"/><path d="M17 16h14M17 23h14M17 30h8"/></svg>',
-  ops: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l18 32H6z"/><path d="M24 19v9M24 33v1"/></svg>'
-};
+var GO = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><path d="M13 10l6 6-6 6"/></svg>';
 
-/* Neue Seite: hier einen Eintrag ergänzen. haupt: true = breite Kachel, neu: true = Etikett "NEU". */
+/* Neue Seite: hier einen Eintrag ergänzen. farbe: "pink", "teal" oder "paper". */
 var SEITEN = [
-  { titel: "Einsatzleitung Live", text: "Einsatz führen: Karte, Sichtung, Verlauf, Export. Anmeldung mit Kürzel und PIN.", icon: "ops", haupt: true, url: "https://einsatzleitung.onrender.com/" },
-  { titel: "Strassen\u00adsperrungen", text: "Karte mit Sperrungen und Pässen, Route prüfen", icon: "map", url: "https://rdksuri.github.io/strassensperrungen-karte/" },
-  { titel: "Praktikum im Rettungs\u00addienst", text: "Anfahrt, Parkieren, Formulare", icon: "edu", url: "https://rdksuri.github.io/praktikum/" }
+  { titel: "Einsatz­leitung Live", text: "Einsatz führen: Karte, Sichtung, Verlauf. Mit Kürzel und PIN.", farbe: "pink", url: "https://einsatzleitung.onrender.com/" },
+  { titel: "Strassen­sperrungen", text: "Karte mit Sperrungen und Pässen, Route prüfen.", farbe: "teal", url: "https://rdksuri.github.io/strassensperrungen-karte/" },
+  { titel: "Praktikum im Rettungs­dienst", text: "Anfahrt, Parkieren und Formulare.", farbe: "paper", url: "https://rdksuri.github.io/praktikum/" }
 ];
 
-function el(tag, cls, text) {
-  var e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text) e.textContent = text;
-  return e;
-}
-
 var grid = document.getElementById("grid");
-SEITEN.forEach(function (s) {
-  var a = el("a", "card" + (s.haupt ? " main" : ""));
-  a.href = s.url; a.target = "_blank"; a.rel = "noopener";
-  var ico = el("span", "ico");
-  ico.innerHTML = ICONS[s.icon] || "";
-  var h = el("h2", "", s.titel + " ");
-  h.appendChild(el("span", "arr", "→"));
-  var p = el("p", "", s.text);
-  if (s.neu) a.appendChild(el("span", "badge", "NEU"));
-  a.appendChild(ico);
-  if (s.haupt) {
-    var box = el("div", "txt");
-    box.appendChild(h); box.appendChild(p);
-    a.appendChild(box);
-  } else {
-    a.appendChild(h); a.appendChild(p);
-  }
-  grid.appendChild(a);
-});
+var q = document.getElementById("q");
+
+function zeige() {
+  var term = q.value.trim().toLowerCase();
+  var treffer = SEITEN.filter(function (s) {
+    return !term || (s.titel + " " + s.text).replace(/­/g, "").toLowerCase().indexOf(term) >= 0;
+  });
+  grid.textContent = "";
+  treffer.forEach(function (s) {
+    var a = document.createElement("a");
+    a.className = "card " + s.farbe;
+    a.href = s.url; a.target = "_blank"; a.rel = "noopener";
+    var top = document.createElement("div");
+    var h = document.createElement("h2"); h.textContent = s.titel;
+    var p = document.createElement("p"); p.textContent = s.text;
+    top.appendChild(h); top.appendChild(p);
+    var go = document.createElement("span");
+    go.className = "go"; go.innerHTML = GO;
+    a.appendChild(top); a.appendChild(go);
+    grid.appendChild(a);
+  });
+  document.getElementById("empty").hidden = treffer.length > 0;
+}
+q.addEventListener("input", zeige);
+zeige();
 </script>
 <script>
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }
