@@ -1,6 +1,6 @@
 // Erste Version: Seite nach dem ersten Besuch auch ohne Netz öffnen.
 // Bei Änderungen am Portal die Versionsnummer erhöhen.
-var CACHE = "ksu-portal-v1";
+var CACHE = "ksu-portal-v2";
 var DATEIEN = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
