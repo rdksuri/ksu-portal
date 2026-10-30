@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b232b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KSU Portal">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>KSU Web-Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: schmale Kopfzeile mit Suche, darunter Kategorie-Filter und ein Kachelraster (1 bis 3 Spalten). */
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --fg: #1b232c;
+  --muted: #5b6672;
+  --line: #d9dde2;
+  --accent: #b3261e;
+  --accent-fg: #ffffff;
+  --band-map: #dfe9f2;
+  --band-edu: #f1e6df;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12171c;
+    --surface: #1b232b;
+    --fg: #e8ecf0;
+    --muted: #9aa6b2;
+    --line: #2d3843;
+    --accent: #ff7b72;
+    --accent-fg: #12171c;
+    --band-map: #22303d;
+    --band-edu: #33282a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12171c;
+  --surface: #1b232b;
+  --fg: #e8ecf0;
+  --muted: #9aa6b2;
+  --line: #2d3843;
+  --accent: #ff7b72;
+  --accent-fg: #12171c;
+  --band-map: #22303d;
+  --band-edu: #33282a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+header { display: flex; flex-direction: column; gap: 6px; }
+.org { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+h1 { font-family: var(--font-display); font-size: clamp(26px, 5vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lead { color: var(--muted); max-width: 62ch; margin: 0; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.search { flex: 1 1 260px; min-width: 0; }
+.search input {
+  width: 100%; font: inherit; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--fg); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.chip:hover { border-color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.count { color: var(--muted); font-size: 14px; margin: 0; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.tile {
+  display: flex; flex-direction: column; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+  color: inherit; text-decoration: none;
+}
+.tile:hover { border-color: var(--accent); }
+.band { height: 84px; display: flex; align-items: center; padding: 0 18px; color: var(--fg); }
+.band svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.band.map { background: var(--band-map); }
+.band.edu { background: var(--band-edu); }
+.body { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px 18px; flex: 1; }
+.cat { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.tile h2 { font-family: var(--font-display); font-size: 20px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.tile p { margin: 0; color: var(--muted); }
+.feat { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.feat li { font-size: 13px; border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; }
+.open { margin-top: auto; padding-top: 6px; font-weight: 600; color: var(--accent); }
+.url { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+
+.empty { border: 1px dashed var(--line); border-radius: 8px; padding: 24px; color: var(--muted); }
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+footer p { margin: 0 0 4px; }
+
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light dark; }
+body { margin: 0; }
+</style>
+
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="org">Rettungsdienst Kantonsspital Uri</span>
+    <h1>Web-Portal</h1>
+    <p class="lead">Alle Seiten und Anwendungen des Rettungsdienstes auf einen Blick. Ein Klick öffnet die jeweilige Seite in einem neuen Tab.</p>
+  </header>
+
+  <div class="controls">
+    <div class="search">
+      <label for="q" hidden>Suchen</label>
+      <input id="q" type="search" placeholder="Suchen, zum Beispiel Karte oder Praktikum" autocomplete="off">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Kategorie"></div>
+  </div>
+
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Keine Seite gefunden. Suchbegriff oder Kategorie ändern.</div>
+
+  <footer>
+    <p>Quellen: GitHub-Pages des Kontos rdksuri und Render. Stand der Liste: 30.10.2026.</p>
+  </footer>
+</div>
+
+<script>
+var ICONS = {
+  map: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12l12-4 12 4 12-4v28l-12 4-12-4-12 4z"/><path d="M18 8v28M30 12v28"/></svg>',
+  edu: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="6" width="28" height="36" rx="3"/><path d="M17 16h14M17 23h14M17 30h8"/></svg>',
+  ops: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l18 32H6z"/><path d="M24 19v9M24 33v1"/></svg>'
+};
+
+var SEITEN = [
+  {
+    titel: "Einsatzleitung Live",
+    kategorie: "Einsatz",
+    icon: "ops", band: "map",
+    text: "Web-Anwendung zur Führung eines Einsatzes: Einsatzdaten, Karte mit Zonen und Punkten, Skizze, Führungsstruktur, Sichtung, Verlauf, POLYCOM-Kanäle und Export. Anmeldung mit Kürzel und Einsatz-PIN.",
+    merkmale: ["Karte", "Sichtung", "Verlauf", "Export"],
+    url: "https://einsatzleitung.onrender.com/"
+  },
+  {
+    titel: "Temporäre Strassensperrungen",
+    kategorie: "Einsatz",
+    icon: "map", band: "map",
+    text: "Interaktive Karte für temporäre Strassensperrungen auf Basis von swisstopo. Ziel eingeben, dann prüft die Seite die Sperrungen auf der Route.",
+    merkmale: ["Karte", "Liste", "Routenprüfung"],
+    url: "https://rdksuri.github.io/strassensperrungen-karte/"
+  },
+  {
+    titel: "Praktikum im Rettungsdienst",
+    kategorie: "Bildung",
+    icon: "edu", band: "edu",
+    text: "Informationen für Praktikantinnen und Praktikanten: Anfahrt, Parkieren sowie Formulare für Praktikumsziele, Schweigepflicht und Praktikumsauswertung.",
+    merkmale: ["Anfahrt", "Formulare", "Schweigepflicht"],
+    url: "https://rdksuri.github.io/praktikum/"
+  }
+];
+
+var aktiveKategorie = "Alle";
+var grid = document.getElementById("grid");
+var chips = document.getElementById("chips");
+var q = document.getElementById("q");
+
+function el(tag, cls, text) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text) e.textContent = text;
+  return e;
+}
+
+function baueChips() {
+  var namen = ["Alle"];
+  SEITEN.forEach(function (s) { if (namen.indexOf(s.kategorie) < 0) namen.push(s.kategorie); });
+  chips.textContent = "";
+  namen.forEach(function (n) {
+    var b = el("button", "chip", n);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(n === aktiveKategorie));
+    b.addEventListener("click", function () { aktiveKategorie = n; baueChips(); zeige(); });
+    chips.appendChild(b);
+  });
+}
+
+function zeige() {
+  var term = q.value.trim().toLowerCase();
+  var treffer = SEITEN.filter(function (s) {
+    if (aktiveKategorie !== "Alle" && s.kategorie !== aktiveKategorie) return false;
+    if (!term) return true;
+    return (s.titel + " " + s.text + " " + s.merkmale.join(" ") + " " + s.kategorie).toLowerCase().indexOf(term) >= 0;
+  });
+  grid.textContent = "";
+  treffer.forEach(function (s) {
+    var a = el("a", "tile");
+    a.href = s.url; a.target = "_blank"; a.rel = "noopener";
+    var band = el("div", "band " + s.band);
+    band.innerHTML = ICONS[s.icon] || "";
+    var body = el("div", "body");
+    body.appendChild(el("span", "cat", s.kategorie));
+    body.appendChild(el("h2", "", s.titel));
+    body.appendChild(el("p", "", s.text));
+    var ul = el("ul", "feat");
+    s.merkmale.forEach(function (m) { ul.appendChild(el("li", "", m)); });
+    body.appendChild(ul);
+    body.appendChild(el("span", "url", s.url.replace("https://", "")));
+    body.appendChild(el("span", "open", "Seite öffnen →"));
+    a.appendChild(band); a.appendChild(body);
+    grid.appendChild(a);
+  });
+  document.getElementById("count").textContent = treffer.length + (treffer.length === 1 ? " Seite" : " Seiten");
+  document.getElementById("empty").hidden = treffer.length > 0;
+}
+
+q.addEventListener("input", zeige);
+baueChips();
+zeige();
+</script>
+<script>
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }
+</script>
+</body>
+</html>
